@@ -33,14 +33,14 @@ class Files {
                 };
         }
 
-        const { fileName, fileContent } = file;
-        if(!fileName || !fileContent){
+        const { originalname, buffer } = file;
+        if(!originalname || !buffer){
             return {
-                error: `file.fileName and file.fileContent is required`
+                error: `file.originalname and file.buffer is required`
             };
         }
 
-        const uploaded = await this.#fileService.upload({fileName, fileContent, bucket: currentBucket});
+        const uploaded = await this.#fileService.upload({fileName: originalname, fileContent: buffer, bucket: currentBucket});
         if(!uploaded){
             return {
                 error: `A error ocurrs when try upload to S3`
