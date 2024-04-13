@@ -14,8 +14,8 @@ class Files {
         this.#bucketName = bucket;
     }
 
-    async save(storageType, file){
-        const bucket = this.#bucketName;
+    async save(storageType, file, bucket){
+        const bucket = bucket || this.#bucketName;
         let imageUrl;
 
         switch (storageType) {
@@ -33,7 +33,14 @@ class Files {
                 };
         }
 
-        const uploaded = await this.#fileService.upload(file, bucket);
+        const { fileName, fileContent } = file;
+        if(!fileName || !fileContent){
+            return {
+                error: `file.fileName and file.fileContent is required`
+            };
+        }
+
+        const uploaded = await this.#fileService.upload({fileName, fileContent, bucket});
         if(!uploaded){
             return {
                 error: `A error ocurrs when try upload to S3`
