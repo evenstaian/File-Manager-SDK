@@ -1,7 +1,6 @@
 require('dotenv/config');
 
 const AWS = require('aws-sdk');
-const mime = require('mime');
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY,
@@ -21,14 +20,13 @@ class S3StorageProvider {
   };
   
   async upload(params) {
-    const { fileName, fileContent, bucket } = params;
-    const ContentType = mime.getType(null);
+    const { fileName, fileContent, mimetype, bucket } = params;
   
     const s3Params = {
       bucket,
       Key: fileName,
       Body: fileContent,
-      ContentType,
+      ContentType: mimetype,
       acl: 'public-read',
       contentDisposition: 'attachment',
       ServerSideEncryption: 'AES256',
