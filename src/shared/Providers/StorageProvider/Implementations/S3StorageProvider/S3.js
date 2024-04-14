@@ -23,7 +23,7 @@ class S3StorageProvider {
     const { fileName, fileContent, mimetype, bucket } = params;
   
     const s3Params = {
-      bucket,
+      Bucket: bucket,
       Key: fileName,
       Body: fileContent,
       ContentType: mimetype,
