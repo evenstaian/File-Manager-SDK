@@ -32,7 +32,15 @@ class S3StorageProvider {
       ServerSideEncryption: 'AES256',
     };
   
-    const response = await s3.upload(s3Params).promise();
+    const response = await s3.upload(s3Params).promise()
+    .then(data => {
+      return data.Location;
+    })
+    .catch(e => { 
+      console.log(e);
+      return false ;
+    });
+    
     return response;
   }
 }
