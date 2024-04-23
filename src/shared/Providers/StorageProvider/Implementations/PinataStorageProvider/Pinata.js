@@ -1,11 +1,13 @@
 const pinataSDK = require('@pinata/sdk');
+require('dotenv/config');
+
 
 class PinataStorageProvider {
-    pinata
+    pinata;
 
     constructor() {
-        const apiKey = '11fd5d4ab44ab8b226af'
-        const apiSecret = '87262a94116fc7b24b838605037cb46363ce2cd1e6de91a9c647733ef786dcb5'
+        const apiKey = process.env.PINATA_ACCESS_KEY
+        const apiSecret = process.env.PINATA_SECRET
         this.pinata = new pinataSDK({ pinataApiKey: apiKey, pinataSecretApiKey: apiSecret });
     }
 
@@ -14,13 +16,13 @@ class PinataStorageProvider {
      * string : imageUrl 
      */
     async get(params) {
-        const { imageHash } = params
-        return `https://gateway.pinata.cloud/ipfs/${imageHash}`
+        const { ipfsHash } = params
+        return `https://gateway.pinata.cloud/ipfs/${ipfsHash}`
     }
 
     /**
      * return
-     * string : nftURI
+     * string : URI
      */
     async upload(params) {
         const { fileName, readableStream, metadata } = params;
@@ -34,7 +36,7 @@ class PinataStorageProvider {
             const filePinned = await this.pinata.pinFileToIPFS(readableStream, options);
             metadata.imageUrl = `ipfs://${filePinned.IpfsHash}`
             const jsonPinned = await this.pinata.pinJSONToIPFS(metadata, options)
-            return `https://gateway.pinata.cloud/ipfs/${jsonPinned.IpfsHash}`;
+            return { metadataUrl: `https://gateway.pinata.cloud/ipfs/${jsonPinned.IpfsHash}`, imageUrl: `https://gateway.pinata.cloud/ipfs/${filePinned.IpfsHash}` };
 
         } catch (error) {
             console.log(error)

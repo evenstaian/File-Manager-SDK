@@ -4,7 +4,7 @@ const { PinataStorageProvider } = require('./Implementations/PinataStorageProvid
 const s3StorageProvider = new S3StorageProvider();
 const pinataStorageProvider = new PinataStorageProvider();
 
-module.exports = { 
+module.exports = {
     s3StorageProvider,
     pinataStorageProvider
 };

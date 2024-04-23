@@ -6,7 +6,7 @@ class FileManagerServiceSdk {
         this.#startModules();
     }
 
-    #startModules(){
+    #startModules() {
         this.files = files;
     }
 }
