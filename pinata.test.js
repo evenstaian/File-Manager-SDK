@@ -5,7 +5,7 @@ const { PinataStorageProvider } = require("./src/shared/Providers/StorageProvide
 const pinataStorage = new PinataStorageProvider()
 
 async function upload() {
-    const fileContent = fs.readFileSync('./tokenImage01.jpeg');
+    const fileContent = fs.readFileSync('./tokenImage.jpeg');
     console.log(fileContent)
     const fileName = 'teste de hoje'
     const metadata = { name: 'colleçao do ouro', traits: { background: 'sas', eye: 'vermelho', mustache: 'preto' } }
