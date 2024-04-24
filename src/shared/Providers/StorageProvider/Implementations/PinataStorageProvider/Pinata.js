@@ -1,4 +1,5 @@
 const pinataSDK = require('@pinata/sdk');
+const { Readable } = require('stream');
 require('dotenv/config');
 
 
@@ -25,7 +26,9 @@ class PinataStorageProvider {
      * string : URI
      */
     async upload(params) {
-        const { fileName, readableStream, metadata } = params;
+        const { fileName, fileContent, metadata } = params;
+        const readableStream = Readable.from(fileContent);
+
         const options = {
             pinataMetadata: {
                 name: fileName,

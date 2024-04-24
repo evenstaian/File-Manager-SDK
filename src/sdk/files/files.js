@@ -14,20 +14,22 @@ class Files {
         this.#bucketName = bucket;
     }
 
-    async save(storageType, file, bucket) {
+    async save(storageType, file, bucket = null, metadata = null) {
         const currentBucket = bucket || this.#bucketName;
         //let imageUrl;
         let hasUploaded;
 
+        const { originalname, buffer } = file;
+        if (!originalname || !buffer) {
+            return {
+                error: `file.originalname and file.buffer is required`
+            };
+        }
+
         switch (storageType) {
             case 'S3':
                 this.#fileService = this.#s3StorageProvider;
-                const { originalname, buffer } = file;
-                if (!originalname || !buffer) {
-                    return {
-                        error: `file.originalname and file.buffer is required`
-                    };
-                }
+
                 const uploadedS3 = await this.#fileService.upload({ fileName: originalname, fileContent: buffer, bucket: currentBucket });
                 if (!uploadedS3) {
                     return {
@@ -40,13 +42,13 @@ class Files {
 
             case 'IPFS':
                 this.#fileService = this.#ipfsStorageProvider;
-                const { fileName, readableStream, metadata } = file;
-                if (!fileName || !readableStream || !metadata) {
+                if (!metadata) {
                     return {
-                        error: `file.fileName, file.metadata and file.readableStream is required`
+                        error: `.metadata is required`
                     };
                 }
-                const uploadedIPFS = await this.#fileService.upload({ fileName: fileName, readableStream: readableStream, metadata: metadata });
+
+                const uploadedIPFS = await this.#fileService.upload({ fileName: originalname, fileContent: buffer, metadata: metadata });
                 if (!uploadedIPFS) {
                     return {
                         error: `A error ocurrs when try upload to IPFS`
