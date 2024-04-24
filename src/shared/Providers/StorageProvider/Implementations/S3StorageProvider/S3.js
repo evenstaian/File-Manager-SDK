@@ -9,7 +9,7 @@ const s3 = new AWS.S3({
 
 class S3StorageProvider {
   async get(params) {
-    const {bucket, fileName} = params;
+    const { bucket, fileName } = params;
     const response = await s3.headObject(
       {
         Bucket: bucket,
@@ -18,10 +18,10 @@ class S3StorageProvider {
     ).promise();
     return response;
   };
-  
+
   async upload(params) {
     const { fileName, fileContent, mimetype, bucket } = params;
-  
+
     const s3Params = {
       Bucket: bucket,
       Key: fileName,
@@ -31,16 +31,16 @@ class S3StorageProvider {
       contentDisposition: 'attachment',
       ServerSideEncryption: 'AES256',
     };
-  
+
     const response = await s3.upload(s3Params).promise()
-    .then(data => {
-      return data.Location;
-    })
-    .catch(e => { 
-      console.log(e);
-      return false ;
-    });
-    
+      .then(data => {
+        return { imageUrl: data.Location };
+      })
+      .catch(e => {
+        console.log(e);
+        return false;
+      });
+
     return response;
   }
 }

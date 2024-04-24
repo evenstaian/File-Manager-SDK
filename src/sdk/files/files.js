@@ -13,7 +13,6 @@ class Files {
     async config(bucket = null) {
         this.#bucketName = bucket;
     }
-
     async save(storageType, file, bucket = null, metadata = null) {
         const currentBucket = bucket || this.#bucketName;
         //let imageUrl;
