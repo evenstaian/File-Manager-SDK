@@ -8,7 +8,7 @@ class PinataStorageProvider {
 
     constructor() {}
 
-    config(AccessKey, AccessSecret){
+    config({AccessKey, AccessSecret}){
         const apiKey = AccessKey
         const apiSecret = AccessSecret
         this.#pinata = new pinataSDK({ pinataApiKey: apiKey, pinataSecretApiKey: apiSecret });

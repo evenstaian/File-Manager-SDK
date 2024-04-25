@@ -5,6 +5,11 @@ const { PinataStorageProvider } = require("./src/shared/Providers/StorageProvide
 const pinataStorage = new PinataStorageProvider()
 
 async function upload() {
+    pinataStorage.config({
+        AccessKey: process.env.PINATA_ACCESS_KEY,
+        AccessSecret: process.env.PINATA_ACCESS_SECRET,
+    })
+    
     const fileContent = fs.readFileSync('./tokenImage.jpeg');
     console.log(fileContent)
     const fileName = 'teste de hoje'

@@ -8,7 +8,7 @@ class S3StorageProvider {
 
   constructor(){}
 
-  config(AccessKey, AccessSecret){
+  config({AccessKey, AccessSecret}){
     this.#s3 = new AWS.S3({
       accessKeyId: AccessKey,
       secretAccessKey: AccessSecret,
