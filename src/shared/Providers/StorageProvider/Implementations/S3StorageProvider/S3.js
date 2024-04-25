@@ -2,12 +2,18 @@ require('dotenv/config');
 
 const AWS = require('aws-sdk');
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET,
-});
-
 class S3StorageProvider {
+
+  #s3
+
+  constructor(){}
+
+  config(AccessKey, AccessSecret){
+    this.#s3 = new AWS.S3({
+      accessKeyId: AccessKey,
+      secretAccessKey: AccessSecret,
+    });
+  }
 
   /**
    * 
@@ -24,7 +30,7 @@ class S3StorageProvider {
    */
   async get(params) {
     const { bucket, fileName } = params;
-    const response = await s3.headObject(
+    const response = await this.#s3.headObject(
       {
         Bucket: bucket,
         Key: fileName,
@@ -68,7 +74,7 @@ class S3StorageProvider {
       ServerSideEncryption: 'AES256',
     };
 
-    const response = await s3.upload(s3Params).promise()
+    const response = await this.#s3.upload(s3Params).promise()
       .then(data => {
         return { imageUrl: data.Location };
       })

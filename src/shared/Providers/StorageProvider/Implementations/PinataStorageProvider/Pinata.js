@@ -4,12 +4,14 @@ require('dotenv/config');
 
 
 class PinataStorageProvider {
-    pinata;
+    #pinata;
 
-    constructor() {
-        const apiKey = process.env.PINATA_ACCESS_KEY
-        const apiSecret = process.env.PINATA_SECRET
-        this.pinata = new pinataSDK({ pinataApiKey: apiKey, pinataSecretApiKey: apiSecret });
+    constructor() {}
+
+    config(AccessKey, AccessSecret){
+        const apiKey = AccessKey
+        const apiSecret = AccessSecret
+        this.#pinata = new pinataSDK({ pinataApiKey: apiKey, pinataSecretApiKey: apiSecret });
     }
 
     /**
@@ -54,9 +56,9 @@ class PinataStorageProvider {
         };
 
         try {
-            const filePinned = await this.pinata.pinFileToIPFS(readableStream, options);
+            const filePinned = await this.#pinata.pinFileToIPFS(readableStream, options);
             metadata.imageUrl = `ipfs://${filePinned.IpfsHash}`
-            const jsonPinned = await this.pinata.pinJSONToIPFS(metadata, options)
+            const jsonPinned = await this.#pinata.pinJSONToIPFS(metadata, options)
             return { metadataUrl: `https://gateway.pinata.cloud/ipfs/${jsonPinned.IpfsHash}`, imageUrl: `https://gateway.pinata.cloud/ipfs/${filePinned.IpfsHash}` };
 
         } catch (error) {
