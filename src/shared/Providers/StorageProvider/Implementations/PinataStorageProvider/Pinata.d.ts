@@ -26,9 +26,13 @@ export class PinataStorageProvider {
      * @param {Buffer} params.fileContent - The buffer content of the file
      * @param {object} params.metadata - The metadata json required to link image
      *  
-     * @returns {Promise<{metadataUrl: string, imageUrl: string}>} - A promise that resolves to an object containing the URLs of the uploaded file and its metadata.
+     * @returns {Promise<boolean | {metadataUrl: string, imageUrl: string}>} - A promise that resolves to an object containing the URLs of the uploaded file and its metadata.
      */
-    upload(params: any): Promise<false | {
+    upload(params: { 
+        fileName: string, 
+        fileContent: Buffer, 
+        metadata: object 
+    }): Promise<false | {
         metadataUrl: string;
         imageUrl: string;
     }>;
