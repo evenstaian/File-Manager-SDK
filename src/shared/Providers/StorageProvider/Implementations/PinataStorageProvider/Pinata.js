@@ -43,7 +43,7 @@ class PinataStorageProvider {
      * @param {Buffer} params.fileContent - The buffer content of the file
      * @param {object} params.metadata - The metadata json required to link image
      *  
-     * @returns {Promise<{metadataUrl: string, imageUrl: string}>} - A promise that resolves to an object containing the URLs of the uploaded file and its metadata.
+     * @returns {Promise<{uri: string}>} - A promise that resolves to an object containing the URLs of the uploaded file and its metadata.
      */
     async upload(params) {
         const { fileName, fileContent, metadata } = params;
@@ -59,7 +59,7 @@ class PinataStorageProvider {
             const filePinned = await this.#pinata.pinFileToIPFS(readableStream, options);
             metadata.image = `ipfs://${filePinned.IpfsHash}`
             const jsonPinned = await this.#pinata.pinJSONToIPFS(metadata, options)
-            return { metadataUrl: `https://gateway.pinata.cloud/ipfs/${jsonPinned.IpfsHash}`, imageUrl: `https://gateway.pinata.cloud/ipfs/${filePinned.IpfsHash}` };
+            return { uri: `ipfs://${jsonPinned.IpfsHash}` }
 
         } catch (error) {
             console.log(error)

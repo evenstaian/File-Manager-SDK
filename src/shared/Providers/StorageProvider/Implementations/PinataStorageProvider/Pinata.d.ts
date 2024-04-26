@@ -12,7 +12,7 @@ export class PinataStorageProvider {
      *  
      * @returns {Promise<string>} - A promise that resolves to the file URL.
      */
-    get(params: { ipfsHash: string } ): Promise<string>;
+    get(params: { ipfsHash: string }): Promise<string>;
 
     /**
      * 
@@ -26,14 +26,11 @@ export class PinataStorageProvider {
      * @param {Buffer} params.fileContent - The buffer content of the file
      * @param {object} params.metadata - The metadata json required to link image
      *  
-     * @returns {Promise<boolean | {metadataUrl: string, imageUrl: string}>} - A promise that resolves to an object containing the URLs of the uploaded file and its metadata.
+     * @returns {Promise<boolean | string>} - A promise that resolves to an object containing the URLs of the uploaded file and its metadata.
      */
-    upload(params: { 
-        fileName: string, 
-        fileContent: Buffer, 
-        metadata: object 
-    }): Promise<false | {
-        metadataUrl: string;
-        imageUrl: string;
-    }>;
+    upload(params: {
+        fileName: string,
+        fileContent: Buffer,
+        metadata: object
+    }): Promise<false | { uri: string }>;
 }
