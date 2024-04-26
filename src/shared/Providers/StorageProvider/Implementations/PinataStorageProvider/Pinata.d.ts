@@ -32,5 +32,5 @@ export class PinataStorageProvider {
         fileName: string,
         fileContent: Buffer,
         metadata: object
-    }): Promise<false | { uri: string }>;
+    }): Promise<false | { uri: string, imageUrl: string }>;
 }
