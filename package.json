@@ -1,7 +1,7 @@
 {
-  "name": "file-manager-service",
+  "name": "file-manager-sdk",
   "version": "1.0.0",
-  "description": "This is file management modular engine ",
+  "description": "This is the file manager SDK created to use IPFS and S3 as storage providers",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
